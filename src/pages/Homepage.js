@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 
@@ -21,6 +22,12 @@ function Homepage() {
   const onClickHandler = () => {
     setIsOpen((prevState) => !prevState);
   };
+
+  const btn = <Button primary rounded className='absolute z-50' onClick={() => modalRef.current.showHiddenBox()}>
+  Modal Hidden Box
+</Button>;
+
+  const btnPortal = createPortal(btn, document.querySelector('#btn'));
 
   return (
     <div className="h-full flex flex-col items-center justify-center gap-5">
@@ -110,7 +117,7 @@ function Homepage() {
       </p>
 
       <Modal
-      ref={modalRef}
+        ref={modalRef}
         content={content}
         onClickHandler={onClickHandler}
         isOpen={isOpen}
@@ -119,6 +126,8 @@ function Homepage() {
       <Button primary rounded onClick={() => setIsOpen(!isOpen)}>
         Modal
       </Button>
+
+        {btnPortal}      
     </div>
   );
 }
